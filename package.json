@@ -1,0 +1,18 @@
+{
+    "name": "virtual-proxy-app",
+    "scripts": {
+        "copy-assets": "copy /Y public out",
+        "clean": "rimraf ./out",
+        "build": "webpack --mode=production && npm run copy-assets",
+        "deploy": "aws s3 cp --recursive ./out s3://cdn.openfin.co/virtual-app/proxy"
+    },
+    "devDependencies": {
+        "html-webpack-plugin": "5.3.2",
+        "openfin-adapter": "20.62.4",
+        "rimraf": "3.0.2",
+        "ts-loader": "9.2.3",
+        "typescript": "4.3.5",
+        "webpack": "5.44.0",
+        "webpack-cli": "4.7.2"
+    }
+}

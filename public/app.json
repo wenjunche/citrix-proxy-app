@@ -1,0 +1,14 @@
+{
+    "startup_app": {
+        "url": "http://localhost:9000/index.html",
+        "uuid": "citrix-proxy-app",
+        "name": "citrix-proxy-app",
+        "autoShow": true,
+        "defaultWidth": 300,
+        "defaultHeight": 300
+    },
+    "runtime": {
+        "arguments": "--ignore-certificate-errors --security-realm=virtual-apps --enable-mesh",
+        "version": "stable"
+    }
+}
