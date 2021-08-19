@@ -4,8 +4,9 @@
         "uuid": "citrix-proxy-app",
         "name": "citrix-proxy-app",
         "autoShow": true,
-        "defaultWidth": 300,
-        "defaultHeight": 300
+        "saveWindowState": false,
+        "defaultWidth": 730,
+        "defaultHeight": 360
     },
     "runtime": {
         "arguments": "--ignore-certificate-errors --security-realm=virtual-apps --enable-mesh",

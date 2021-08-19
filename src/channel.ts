@@ -5,6 +5,21 @@ import * as ws from './ws';
 
 let provider: ChannelProvider;
 
+type CEvent = 'packet';
+const listeners: Map<CEvent, Set<(...args: any[]) => void>> = new Map();
+
+const emit = (event: CEvent, ...args: any[]) => {
+    const evListeners = listeners.get(event) || new Set();
+    evListeners.forEach((listener) => listener(...args));
+};
+export function addEventListener(event: CEvent, listener: (...args: any[]) => void) {
+    if (!listeners.has(event)) {
+        listeners.set(event, new Set());
+    }
+    listeners.get(event).add(listener);
+}
+
+
 export const initProvider = async(name: string) => {
     provider = await fin.InterApplicationBus.Channel.create(name);
     provider.onConnection((idenity: Identity, payload: any) => {
@@ -16,6 +31,7 @@ export const initProvider = async(name: string) => {
 
     provider.register('proxy-request', (payload: any,  identity: Identity) => {
         ws.send(payload);
+        emit('packet', payload);
     });
     console.debug('created channel provider', name);
 }

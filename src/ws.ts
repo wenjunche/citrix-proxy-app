@@ -13,15 +13,15 @@ const isConnectedOrFail = async () => {
     throw new Error('web socket not connected');
 };
 
-type Event = 'close' | 'packet';
-const listeners: Map<Event, Set<(...args: any[]) => void>> = new Map();
+type WEvent = 'close' | 'packet';
+const listeners: Map<WEvent, Set<(...args: any[]) => void>> = new Map();
 
 /**
  * Emit an event.
  * @param event the event to emit.
  * @param args the args to pass with the event emission.
  */
-const emit = (event: Event, ...args: any[]) => {
+const emit = (event: WEvent, ...args: any[]) => {
     const evListeners = listeners.get(event) || new Set();
     evListeners.forEach((listener) => listener(...args));
 };
@@ -57,7 +57,7 @@ const handleConnect = () => {
             ws.addEventListener('message', (ev) => handleMessage(ev));
             res();
         };
-        const onRej = (err) => {
+        const onRej = (err: Event): void => {
             newWS.close();
             removeListeners();
             rej(err);
@@ -103,7 +103,7 @@ export const connect = (reqWsUrl: string) => {
 
 export function addEventListener(event: 'packet', listener: (packet: Packet) => void): void;
 export function addEventListener(event: 'close', listener: () => void): void;
-export function addEventListener(event: Event, listener: (...args: any[]) => void) {
+export function addEventListener(event: WEvent, listener: (...args: any[]) => void) {
     isConnectedOrFail();
     if (!listeners.has(event)) {
         listeners.set(event, new Set());
